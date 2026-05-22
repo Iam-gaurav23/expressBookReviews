@@ -108,5 +108,14 @@ public_users.get('/review/:isbn',function (req, res) {
   return res.status(200).json(books[isbn].reviews);
 
 });
+public_users.get('/async/author/:author', async function (req, res) {
+
+  const author = req.params.author;
+
+  const response = await axios.get(`http://localhost:5000/author/${author}`);
+
+  return res.status(200).json(response.data);
+
+});
 
 module.exports.general = public_users;
