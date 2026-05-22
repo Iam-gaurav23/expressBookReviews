@@ -49,11 +49,15 @@ req.session.authorization = {
   accessToken,username
 }
 
-return res.status(200).send("User successfully logged in");
+return res.status(200).json({
+  message:"Login successful!"
+});
 
 }
 
-return res.status(208).json({message:"Invalid Login. Check username and password"});
+return res.status(208).json({
+  message:"Invalid Login. Check username and password"
+});
 
 });
 
@@ -66,7 +70,22 @@ const review = req.query.review;
 books[isbn].reviews[req.session.authorization.username] = review;
 
 return res.status(200).json({
-  message:"Review added successfully"
+  message:"Review added successfully",
+  reviews: books[isbn].reviews
+});
+
+});
+
+// Delete book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+
+const isbn = req.params.isbn;
+
+delete books[isbn].reviews[req.session.authorization.username];
+
+return res.status(200).json({
+  message:"Review deleted successfully",
+  reviews: books[isbn].reviews
 });
 
 });
